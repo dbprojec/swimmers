@@ -9,7 +9,7 @@ const {
 
 class _AppBar extends React.Component {
   render () {
-    return (<div className="logo" /> 
+    return (
       <Header className="header">
         Swimmers
       </Header>

@@ -1,8 +1,7 @@
 import React from 'react'
-import './AppBar.css'
-import {
-  Layout, Menu, Breadcrumb, Icon,
-} from 'antd';
+import { Layout, Menu } from 'antd';
+import SwimmerTable from '../../components/swimmertable/swimmertable';
+import _AppBar from '../../components/appbar/AppBar';
 const { SubMenu } = Menu;
 const {
   Header, Content, Footer, Sider,
@@ -10,10 +9,10 @@ const {
 
 class Home extends React.Component {
   render () {
-    const {children} = this.props.children
     return (
       <Layout>
-        {children}
+        <_AppBar />
+        <SwimmerTable />
       </Layout>
     )
   }
