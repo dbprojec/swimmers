@@ -5,14 +5,16 @@ const SwimmerSchema = new Schema({
     name: String,
     strokes: Object,
     distance: Number,
-    time: Number,
+    time: {
+        type: Array        
+    },
     birthday: {
-        type: Date,
-        default: new Date("2/10/2000")
+        type: Object,
+        default: new Date("2-10-2000")
     },
     gender: String,
     score: {
-        type: Object        
+        type: Array
     },
     time_added: {
         type: Date,

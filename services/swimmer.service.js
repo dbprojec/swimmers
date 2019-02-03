@@ -46,20 +46,38 @@ exports.updateSwimmer = (id, updates) => {
 
 exports.getSwimmers = () => {
     return new Promise((succeed, fail) => {
+        let done = false
         Swimmer.find({}, (err, swimmers) => {
-            if (err) {
-                fail({
-                    success: false,
-                    error: err,
-                    status: 500
-                })
-            } else {
-                succeed({
-                    success: true,
-                    data: swimmers,
-                    status: 200
-                })
+            swimmers.map((swimmer, index) => {
+                let today = new Date()
+                let birthday = new Date(swimmer.birthday)
+                console.log(swimmer.birthday)
+                let age = today.getFullYear() - birthday.getFullYear()
+                const m = today.getMonth() - birthday.getMonth()
+                if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+                swimmer.birthday = age;
+                if (index = swimmers.length) {
+                    done = true
+                }
+            })
+            if (done) {
+                if (err) {
+                    fail({
+                        success: false,
+                        error: err,
+                        status: 500
+                    })
+                } else {
+                    succeed({
+                        success: true,
+                        data: swimmers,
+                        status: 200
+                    })
+                }
             }
+            
         })
     })
 }
@@ -90,7 +108,7 @@ exports.getSwimmersByAgeGroup = group => {
 exports.getSwimmersByGender = gender => {
     return new Promise((succeed, fail) => {
         Swimmer.find({
-            gender: gender
+            gender: gender.trim()
         }, (err, swimmers) => {
             if (err) {
                 fail({

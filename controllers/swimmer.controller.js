@@ -2,7 +2,7 @@ const swimmerService = require('../services/swimmer.service.js')
 
 exports.addSwimmer = (req, res) => {
     if (req.body.birthday) {
-        req.body.birthday = parseInt(req.body.birthday)
+        req.body.birthday = new Date(req.body.birthday)
     }
     if (req.body.time) {
         req.body.time = parseInt(req.body.time)
