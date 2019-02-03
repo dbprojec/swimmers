@@ -233,6 +233,11 @@ class SwimmerTable extends Component {
       sorter: (a, b) => a.score[this.state.season] - b.score[this.state.season],
       sortDirections: ['descend', 'ascend'],
     }, {
+      title: 'Distance',
+      dataIndex: 'score['+(this.state.season - 1)+'].distance',
+      sorter: (a, b) => a.score[this.state.season] - b.score[this.state.season],
+      sortDirections: ['descend', 'ascend'],
+    }, {
       title: 'Gender',
       dataIndex: 'gender',
       defaultSortOrder: 'descend',
