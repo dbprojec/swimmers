@@ -12,7 +12,8 @@ class SwimmerTable extends Component {
     swimmers: [],
     originalSwimmers: [],
     loading: true,
-    searchText: ''
+    searchText: '',
+    season: 1
   }
 
   handleAgeGroupClick(e) {
@@ -26,6 +27,13 @@ class SwimmerTable extends Component {
         swimmers: this.state.originalSwimmers.filter(swimmer => parseInt(swimmer.birthday) < 20)
       })
     }
+  }
+
+  handleSeasonClick(e) {
+    console.log(e)
+    this.setState({
+      season: e
+    })
   }
 
   ageGroupMenu = (
@@ -42,10 +50,16 @@ class SwimmerTable extends Component {
   seasonMenu = (
     <Menu>
       <Menu.Item key="0">
-        <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/" onClick={this.handleSeasonClick}>first</a>
+        <a target="_blank" rel="noopener noreferrer" onClick={this.handleSeasonClick.bind(this, 1)}>first (I)</a>
       </Menu.Item>
       <Menu.Item key="1">
-        <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/" onClick={this.handleSeasonClick}>second</a>
+        <a target="_blank" rel="noopener noreferrer" onClick={this.handleSeasonClick.bind(this, 2)}>second (II)</a>
+      </Menu.Item>
+      <Menu.Item key="1">
+        <a target="_blank" rel="noopener noreferrer" onClick={this.handleSeasonClick.bind(this, 3)}>third (III)</a>
+      </Menu.Item>
+      <Menu.Item key="1">
+        <a target="_blank" rel="noopener noreferrer" onClick={this.handleSeasonClick.bind(this, 4)}>fourth (IV)</a>
       </Menu.Item>
     </Menu>
   );
@@ -215,8 +229,8 @@ class SwimmerTable extends Component {
       ...this.getColumnSearchProps('birthday')
     }, {
       title: 'Time',
-      dataIndex: 'time',
-      sorter: (a, b) => a.time - b.time,
+      dataIndex: 'score['+(this.state.season - 1)+'].time',
+      sorter: (a, b) => a.score[this.state.season] - b.score[this.state.season],
       sortDirections: ['descend', 'ascend'],
     }, {
       title: 'Gender',
