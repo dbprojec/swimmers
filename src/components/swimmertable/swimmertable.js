@@ -13,7 +13,8 @@ class SwimmerTable extends Component {
     originalSwimmers: [],
     loading: true,
     searchText: '',
-    season: 1
+    season: 1,
+    best: []
   }
 
   handleAgeGroupClick(e) {
@@ -174,16 +175,27 @@ class SwimmerTable extends Component {
       loading: true
     })
     this.httpUtil.get('all', null)
-      .then(res => res.data.data)
+      .then(res => {console.log(res); return res.data})
       .then(data => {
         let done = false;
+        let done2 = true;
         data.map((swimmer, index) =>{
           swimmer.key = swimmer._id
           if (index === data.length - 1) {
             done = true
           }
         })
-        if (done) {
+        // let i = 0;
+        // if (done) {
+        //   data.sort((a, b, max) => {
+        //     max = a.score[this.state.season].time - b.score[this.state.season].time
+        //     i++;
+        //     if (i === data.length) {done2 = true}
+        //     return max;
+        //   })
+        // }
+        
+        if (done && done2) {
           this.setState({
             swimmers: data,
             originalSwimmers: data,
@@ -230,12 +242,12 @@ class SwimmerTable extends Component {
     }, {
       title: 'Time',
       dataIndex: 'score['+(this.state.season - 1)+'].time',
-      sorter: (a, b) => a.score[this.state.season] - b.score[this.state.season],
+      sorter: (a, b) => a.score[this.state.season].time - b.score[this.state.season].time,
       sortDirections: ['descend', 'ascend'],
     }, {
       title: 'Distance',
       dataIndex: 'score['+(this.state.season - 1)+'].distance',
-      sorter: (a, b) => a.score[this.state.season] - b.score[this.state.season],
+      sorter: (a, b) => a.score[this.state.season].distance - b.score[this.state.season].distance,
       sortDirections: ['descend', 'ascend'],
     }, {
       title: 'Gender',
@@ -259,6 +271,7 @@ class SwimmerTable extends Component {
         <Row gutter={36}>
           <Col span={12}>
             <div className="table-operations">
+              <Icon type="reload" onClick={this.getAllSwimmers}/>
               <Dropdown overlay={this.ageGroupMenu}>
                 <a className="ant-dropdown-link" href="#">
                   Age Group <Icon type="down" />

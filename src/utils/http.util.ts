@@ -12,13 +12,31 @@ export class HttpUtil {
     }
     private constructor() { }
 
+    private _cache: any = {}
+
     fetchData(url: string) {
-        
-        return axios.default.get(url, {
-            headers: {
-                "content-type": "application/json; charset=utf-8"
-            }
-        })
+        if (Object.keys(this._cache).indexOf(url) > -1) {
+            console.log(this._cache[url])
+            return new Promise((succeed, fail) => {
+                succeed({data: this._cache[url].data})
+            })
+        } else {
+            // alert("returning from network")
+            return axios.default.get(url, {
+                headers: {
+                    "content-type": "application/json; charset=utf-8"
+                }
+            }).then(res => {
+                this._cache[url] = res.data
+                return res.data
+            })
+        }
+    }
+
+    public cache(url: string, data: any) {
+        if (Object.keys(this._cache).indexOf(url) < 0) {
+            this._cache[url] = data
+        }
     }
 
     get(expression: any, args: any) {
